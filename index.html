@@ -1,142 +1,37 @@
 <!DOCTYPE html>
 <html lang="fa">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>چت‌بات مدرن</title>
-<style>
-  body {
-    margin: 0;
-    font-family: 'Vazir', sans-serif;
-    background: #f5f7fa;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-  }
-  .chat-container {
-    width: 400px;
-    max-width: 90%;
-    height: 600px;
-    background: #ffffff;
-    border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-  }
-  .chat-header {
-    background: linear-gradient(90deg, #6a11cb, #2575fc);
-    color: #fff;
-    padding: 15px;
-    text-align: center;
-    font-weight: bold;
-    font-size: 18px;
-  }
-  .chat-body {
-    flex: 1;
-    padding: 15px;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-  .message {
-    max-width: 70%;
-    padding: 10px 15px;
-    border-radius: 15px;
-    line-height: 1.4;
-    word-wrap: break-word;
-    animation: fadeIn 0.3s ease-in-out;
-  }
-  .user {
-    align-self: flex-end;
-    background: #2575fc;
-    color: #fff;
-    border-bottom-right-radius: 0;
-  }
-  .bot {
-    align-self: flex-start;
-    background: #e5e5ea;
-    color: #000;
-    border-bottom-left-radius: 0;
-  }
-  .chat-footer {
-    display: flex;
-    padding: 10px;
-    border-top: 1px solid #ddd;
-    gap: 10px;
-  }
-  .chat-footer input {
-    flex: 1;
-    padding: 10px 15px;
-    border-radius: 20px;
-    border: 1px solid #ccc;
-    outline: none;
-  }
-  .chat-footer button {
-    background: #2575fc;
-    color: #fff;
-    border: none;
-    padding: 0 20px;
-    border-radius: 50%;
-    cursor: pointer;
-    font-size: 18px;
-    transition: background 0.3s;
-  }
-  .chat-footer button:hover {
-    background: #6a11cb;
-  }
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px);}
-    to { opacity: 1; transform: translateY(0);}
-  }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>چت‌بات</title>
+  <style>
+    /* استایل‌های CSS برای طراحی چت‌بات */
+  </style>
 </head>
 <body>
-<div class="chat-container">
-  <div class="chat-header">چت‌بات شما</div>
-  <div class="chat-body" id="chatBody"></div>
-  <div class="chat-footer">
-    <input type="text" id="userInput" placeholder="پیام خود را بنویسید..." />
-    <button onclick="sendMessage()">➤</button>
-  </div>
-</div>
+  <div id="chat"></div>
+  <input type="text" id="userInput" placeholder="پیام خود را وارد کنید..." />
+  <button onclick="sendMessage()">ارسال</button>
 
-<script>
-const chatBody = document.getElementById('chatBody');
-const userInput = document.getElementById('userInput');
+  <script>
+    const chat = document.getElementById('chat');
+    const userInput = document.getElementById('userInput');
 
-function addMessage(text, sender) {
-  const msg = document.createElement('div');
-  msg.classList.add('message', sender);
-  msg.textContent = text;
-  chatBody.appendChild(msg);
-  chatBody.scrollTop = chatBody.scrollHeight;
-}
+    async function sendMessage() {
+      const message = userInput.value;
+      if (!message) return;
 
-async function sendMessage() {
-  const message = userInput.value.trim();
-  if (!message) return;
-  addMessage(message, 'user');
-  userInput.value = '';
+      // نمایش پیام کاربر
+      chat.innerHTML += `<div>شما: ${message}</div>`;
+      userInput.value = '';
 
-  try {
-    const response = await fetch('https://violations-surge-karaoke-cj.trycloudflare.com/', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message })
-    });
-    const data = await response.json();
-    addMessage(data.reply || 'پاسخی دریافت نشد.', 'bot');
-  } catch (err) {
-    addMessage('خطا در ارتباط با سرور!', 'bot');
-  }
-}
-
-userInput.addEventListener('keydown', (e) => {
-  if (e.key === 'Enter') sendMessage();
-});
-</script>
-</body>
-</html>
+      try {
+        const response = await fetch('https://sherman-flesh-retrieved-twiki.trycloudflare.com', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message })
+        });
+        const data = await response.json();
+        chat.innerHTML += `<div>ربات: ${data.reply}</div>`;
+      } catch (error) {
+        chat.innerHTML += `<div>خطا در ارت
