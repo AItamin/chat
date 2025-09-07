@@ -34,4 +34,9 @@
         const data = await response.json();
         chat.innerHTML += `<div>ربات: ${data.reply}</div>`;
       } catch (error) {
-        chat.innerHTML += `<div>خطا در ارت
+        chat.innerHTML += `<div>خطا در ارتباط با سرور</div>`;
+      }
+    }
+  </script>
+</body>
+</html>
